@@ -25,8 +25,8 @@ func TestAccJiraIssue_basic(t *testing.T) {
 				),
 			},
 			{
-				ResourceName: resourceName,
-				ImportState: true,
+				ResourceName:      resourceName,
+				ImportState:       true,
 				ImportStateVerify: true,
 			},
 		},
@@ -78,7 +78,6 @@ func testAccCheckJiraIssueExists(n string) resource.TestCheckFunc {
 
 func testAccJiraIssueConfig(rInt int) string {
 	return fmt.Sprintf(`
-
 resource "jira_user" "foo" {
 	name = "project-user-%d"
 	email = "example@example.org"
@@ -93,8 +92,10 @@ resource "jira_project" "foo" {
 }
 
 resource "jira_issue" "example" {
-	issue_type  = "Task"
-	project_key = "${jira_project.foo.key}"
-	summary     = "Created using Terraform"
-  }`, rInt, rInt, rInt%100000)
+	issue_type    = "Task"
+	project_key   = "${jira_project.foo.key}"
+	summary       = "Created using Terraform"
+	labels        = ["label1", "label2", "label3", "label4"]
+}
+`, rInt, rInt, rInt%100000)
 }
